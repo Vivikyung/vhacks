@@ -12,6 +12,7 @@ export default class View3D extends React.Component<{ appState: AppState }, {}> 
   private _camera: BABYLON.FreeCamera;
   private _light: BABYLON.Light;
   private _videoPlane: BABYLON.Mesh;
+  private _vrHelper: BABYLON.VRExperienceHelper;
 
   componentDidMount() {
     this._canvas = this.refs.canvasRef as HTMLCanvasElement;
@@ -22,6 +23,7 @@ export default class View3D extends React.Component<{ appState: AppState }, {}> 
 
   create() {
     this._scene = new BABYLON.Scene(this._engine);
+    var vrHelper = this._scene.createDefaultVRExperience();
 
     // create a FreeCamera, and set its position to (x:0, y:5, z:-10)
     this._camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 5, -10), this._scene);
@@ -41,10 +43,12 @@ export default class View3D extends React.Component<{ appState: AppState }, {}> 
  
      // move the sphere upward 1/2 of its height
      sphere.position.y = 1;
- 
-     // create a built-in "ground" shape
-     let ground = BABYLON.MeshBuilder.CreateGround('ground',
-       { width: 6, height: 6, subdivisions: 2 }, this._scene); */
+      */
+
+    // create a built-in "ground" shape
+    let ground = BABYLON.MeshBuilder.CreateGround('ground',
+      { width: 6, height: 6, subdivisions: 2 }, this._scene);
+    vrHelper.enableTeleportation({ floorMeshName: "ground" });
 
     this._videoPlane = BABYLON.MeshBuilder.CreatePlane("videoPlane", { width: 8, height: 8 }, this._scene);
     var myMaterial = new BABYLON.StandardMaterial("videoMaterial", this._scene);
