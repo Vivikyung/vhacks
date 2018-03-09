@@ -3,6 +3,12 @@ import * as Peer from 'simple-peer'
 import { observer } from 'mobx-react'
 import AppState from './AppState'
 import autobind from 'autobind-decorator'
+import { Stream } from 'stream';
+
+navigator.getUserMedia = (navigator.getUserMedia ||
+  (navigator as any).webkitGetUserMedia ||
+  (navigator as any).mozGetUserMedia ||
+  (navigator as any).msGetUserMedia);
 
 @observer
 export default class VideoView extends React.Component<{ appState: AppState }, {}> {
@@ -11,12 +17,25 @@ export default class VideoView extends React.Component<{ appState: AppState }, {
 
   constructor() {
     super()
-    this.init()
+    if (location.hash === '#1')
+      navigator.getUserMedia({ video: true, audio: true }, this.initStreamer, function () { })
+    else
+      this.initListener()
   }
 
   @autobind
-  init() {
-    this.peer = new Peer({ initiator: location.hash === '#1', trickle: false })
+  initListener() {
+    this.peer = new Peer({ initiator: false, trickle: false })
+    this.peer.on('error', this.error)
+    this.peer.on('signal', this.signal)
+    this.peer.on('connect', this.connect)
+    this.peer.on('data', this.data)
+    this.peer.on('stream', this.stream)
+  }
+
+  @autobind
+  initStreamer(stream) {
+    this.peer = new Peer({ initiator: location.hash === '#1', stream: stream, trickle: false })
     this.peer.on('error', this.error)
     this.peer.on('signal', this.signal)
     this.peer.on('connect', this.connect)
@@ -27,6 +46,13 @@ export default class VideoView extends React.Component<{ appState: AppState }, {
   signal(data) {
     console.log('SIGNAL', JSON.stringify(data))
     document.querySelector('#outgoing').textContent = JSON.stringify(data)
+  }
+
+  @autobind
+  stream(stream) {
+    console.log("on stream")
+    this.props.appState.videoStreamSrc = window.URL.createObjectURL(stream);
+    (this.refs.vidRef as HTMLVideoElement).play();
   }
 
   @autobind
@@ -62,6 +88,7 @@ export default class VideoView extends React.Component<{ appState: AppState }, {
         <textarea id="incoming" onChange={this.onChange}></textarea>
         <button type="submit">submit</button>
       </form>
+      <video ref="vidRef" src={this.props.appState.videoStreamSrc} />
       <pre id="outgoing"></pre>
     </div>
   }

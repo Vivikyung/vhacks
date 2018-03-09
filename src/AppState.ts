@@ -7,6 +7,8 @@ export default class AppState {
 
   @observable markers = []
 
+  @observable videoStreamSrc: string = null
+
   constructor() {
     setInterval(() => {
       this.timer += 1;
