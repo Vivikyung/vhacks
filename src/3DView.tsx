@@ -53,9 +53,9 @@ export default class View3D extends React.Component<{ appState: AppState }, {}> 
     this._videoPlane = BABYLON.MeshBuilder.CreatePlane("videoPlane", { width: 8, height: 8 }, this._scene);
     this._videoPlane.position = new BABYLON.Vector3(0, 0, 10)
     var myMaterial = new BABYLON.StandardMaterial("videoMaterial", this._scene);
-    myMaterial.diffuseColor = BABYLON.Color3.Red();
+    //myMaterial.diffuseColor = BABYLON.Color3.Red();
     this._videoPlane.material = myMaterial;
-
+-
     autorun(() => {
       if (this.props.appState.videoElement)
         (this._videoPlane.material as BABYLON.StandardMaterial).diffuseTexture = new BABYLON.VideoTexture('vidtex', this.props.appState.videoElement, this._scene);
