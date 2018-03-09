@@ -23,7 +23,7 @@ const InnerComponent = compose(
   withGoogleMap
 )((props) => 
     <GoogleMap
-      defaultZoom={4}
+      defaultZoom={8}
       defaultCenter={{ lat: 41.9028, lng: 12.4964 }}
       onClick={props.handleMapClick}
     >
