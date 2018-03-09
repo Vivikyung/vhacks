@@ -1,0 +1,3 @@
+[submodule "bckend/java-getting-started"]
+	path = bckend/java-getting-started
+	url = ../../heroku/java-getting-started.git
