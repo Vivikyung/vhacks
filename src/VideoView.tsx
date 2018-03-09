@@ -14,13 +14,23 @@ navigator.getUserMedia = (navigator.getUserMedia ||
 export default class VideoView extends React.Component<{ appState: AppState }, {}> {
 
   peer: Peer.Instance
+  ws: WebSocket
+  initiator: boolean = location.hash === '#1'
 
   constructor() {
     super()
-    if (location.hash === '#1')
+    if (this.initiator)
       navigator.getUserMedia({ video: true, audio: true }, this.initStreamer, function () { })
     else
       this.initListener()
+    this.ws = new WebSocket('ws://localhost:8085')
+    this.ws.onmessage = (event: any) => {
+      var parsed = JSON.parse(event.data)
+      if (this.initiator && parsed.type == "answer")
+        this.peer.signal(parsed)
+      else if (!this.initiator && parsed.type == "offer")
+        this.peer.signal(parsed)
+    }
   }
 
   @autobind
@@ -44,8 +54,10 @@ export default class VideoView extends React.Component<{ appState: AppState }, {
 
   @autobind
   signal(data) {
-    console.log('SIGNAL', JSON.stringify(data))
-    document.querySelector('#outgoing').textContent = JSON.stringify(data)
+    let signal = JSON.stringify(data)
+    console.log('SIGNAL', signal)
+    this.ws.send(signal)
+    document.querySelector('#outgoing').textContent = signal
   }
 
   @autobind
@@ -83,7 +95,7 @@ export default class VideoView extends React.Component<{ appState: AppState }, {
   }
 
   render() {
-    return <div>Video
+    return <div>Video2
          <form onSubmit={this.submit}>
         <textarea id="incoming" onChange={this.onChange}></textarea>
         <button type="submit">submit</button>
