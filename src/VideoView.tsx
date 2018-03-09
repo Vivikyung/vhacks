@@ -126,14 +126,16 @@ export default class VideoView extends React.Component<{ appState: AppState }, {
   }
 
   render() {
-    return <div>Video3
+    return <div>
+      {/* Video3
          <form onSubmit={this.submit}>
         <textarea id="incoming" onChange={this.onChange}></textarea>
         <button type="submit">submit</button>
       </form>
-      <video ref="vidRef" src={this.props.appState.videoStreamSrc} />
-      <pre id="outgoing"></pre>
+       */}
+      {/* <pre id="outgoing"></pre> */}
       <View3D appState={this.props.appState} />
+      <video ref="vidRef" src={this.props.appState.videoStreamSrc} />
     </div>
   }
 }
