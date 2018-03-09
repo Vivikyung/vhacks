@@ -24,7 +24,7 @@ export default class VideoView extends React.Component<{ appState: AppState }, {
       navigator.getUserMedia({ video: true, audio: true }, this.initStreamer, function () { })
     else
       this.initListener()
-    this.ws = new WebSocket('ws://localhost:8085')
+    this.ws = new WebSocket('ws://' + window.location.hostname + ':8085')
     this.ws.onmessage = (event: any) => {
       var parsed = JSON.parse(event.data)
       if (this.initiator && parsed.type == "answer")
