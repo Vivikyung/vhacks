@@ -7,6 +7,7 @@ import AppState from './AppState';
 import VideoView from './VideoView'
 import Map from './Map'
 import 'bulma/css/bulma.css'
+import Header from './header'
 
 @observer
 class TimerView extends React.Component<{ appState: AppState }, {}> {
