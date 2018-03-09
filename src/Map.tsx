@@ -9,7 +9,7 @@ const InnerComponent = compose(
   withProps({
     googleMapURL: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyA9J_Gmk6p51rs4y6fB6MlUkA07QpkOuEU&v=3.exp&libraries=geometry,drawing,places',
     loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `400px` }} />,
+    containerElement: <div className="mapContainer" style={{ height: `100vh` }} />,
     mapElement: <div style={{ height: `100%` }} />,
   }),
   withHandlers({
@@ -21,7 +21,7 @@ const InnerComponent = compose(
   }),
   withScriptjs,
   withGoogleMap
-)((props) => 
+)((props) =>
     <GoogleMap
       defaultZoom={8}
       defaultCenter={{ lat: 41.9028, lng: 12.4964 }}
@@ -40,7 +40,7 @@ const InnerComponent = compose(
         />
         ))}
       </MarkerClusterer>
-    
+
       <Marker
         position={{ lat : props.displayLat, lng : props.displayLng }}
       />
@@ -61,7 +61,7 @@ export default class Map extends React.Component<{ appState: AppState }, {}> {
 
     fetch(socket, {
       method: 'POST',
-      body: JSON.stringify(data), 
+      body: JSON.stringify(data),
       headers: new Headers({
         'Content-Type': 'application/json'
       })
@@ -99,9 +99,11 @@ export default class Map extends React.Component<{ appState: AppState }, {}> {
           displayLng = {this.state.userlng}
           markers = {this.state.markers}
         />
-        <button onClick={this.sendMarker}>
-          Make Request
-        </button> 
+        <div className="requestContainer">
+          <button className="primaryButton" onClick={this.sendMarker}>
+            Make Request
+          </button>
+        </div>
       </div>
     )
   }
@@ -133,7 +135,7 @@ class InnerComponent extends React.Component <{ appState: AppState }, {}> {
     super(props);
     this.state = {marker : []};
     this.handleClick = this.handleClick.bind(this);
-    
+
   };
 
   handleClick() {
@@ -148,7 +150,7 @@ class InnerComponent extends React.Component <{ appState: AppState }, {}> {
   return <GoogleMap
     defaultZoom={8}
     defaultCenter={{ lat: -34.397, lng: 150.644 }}
-    
+
   >
   <Marker
     position={{this.lat, this.lng}}
@@ -175,7 +177,7 @@ export default class Map extends React.Component<{ appState: AppState }, {}> {
     this.setState({ isMarkerShown: false })
     this.delayedShowMarker()
   }
-  
+
   render() {
     console.log("state ", this.state.isMarkerShown)
     return <div style={{ height: "1000px", width: "100%" }}>
