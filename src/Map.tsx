@@ -12,9 +12,12 @@ const InnerComponent = withScriptjs(withGoogleMap((props) => {
 
 export default class Map extends React.Component<{ appState: AppState }, {}> {
   render() {
-    return <InnerComponent googleMapURL={'https://maps.googleapis.com/maps/api/js'}
-      loadingElement={<div>Loading</div>}
-      containerElement={<div>Container</div>}
-      mapElement={<div>Map</div>} />
+    return <div style={{ height: "300px", width: "300px" }}>
+      <InnerComponent
+        googleMapURL={'https://maps.googleapis.com/maps/api/js?key=AIzaSyA9J_Gmk6p51rs4y6fB6MlUkA07QpkOuEU&v=3.exp&libraries=geometry,drawing,places'}
+        loadingElement={< div > Loading</div>}
+        containerElement={< div > Container</div >}
+        mapElement={< div > Map</div >} />
+    </div>
   }
 }
