@@ -3,7 +3,8 @@ import * as Peer from 'simple-peer'
 import { observer } from 'mobx-react'
 import AppState from './AppState'
 import autobind from 'autobind-decorator'
-import { Stream } from 'stream';
+import { Stream } from 'stream'
+import View3D from './3DView'
 
 navigator.getUserMedia = (navigator.getUserMedia ||
   (navigator as any).webkitGetUserMedia ||
@@ -102,6 +103,7 @@ export default class VideoView extends React.Component<{ appState: AppState }, {
       </form>
       <video ref="vidRef" src={this.props.appState.videoStreamSrc} />
       <pre id="outgoing"></pre>
+      <View3D appState={this.props.appState} />
     </div>
   }
 }
