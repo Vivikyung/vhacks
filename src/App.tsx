@@ -15,9 +15,6 @@ class App extends React.Component<{ appState: AppState }, {}> {
         return (
             <div>
                 <VideoView appState={this.props.appState} />
-                <button onClick={this.onReset}>
-                    Seconds passed: {this.props.appState.timer}
-                </button>
                 {!this.props.appState.johnny && <Map appState={this.props.appState} />}
                 <DevTools />
             </div>
