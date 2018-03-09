@@ -6,7 +6,7 @@ import DevTools from 'mobx-react-devtools';
 import AppState from './AppState';
 import VideoView from './VideoView'
 import Map from './Map'
-import 'bulma/css/bulma.css'
+//import 'bulma/css/bulma.css'
 
 @observer
 class TimerView extends React.Component<{ appState: AppState }, {}> {
