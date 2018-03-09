@@ -18,13 +18,21 @@ module.exports = {
   module: {
     loaders: [
       {
-      test: /\.tsx?$/,
-      use: [
-        {
-          loader: "awesome-typescript-loader"
-        },
-      ],
-      include: path.join(__dirname, 'src')
-    }]
+        test: /\.tsx?$/,
+        use: [
+          {
+            loader: "awesome-typescript-loader"
+          },
+        ],
+        include: path.join(__dirname, 'src')
+      }, {
+        test: /\.css$/,
+        use: [
+          {
+            loader: "style-loader"
+          },
+          { loader: "css-loader" }
+        ],
+      }]
   }
 };
