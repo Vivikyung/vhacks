@@ -17,20 +17,24 @@ export default class AppState {
 
   username = location.hash === '#1' ? "metamaster" : "follower"
 
+  johnny: boolean = location.search.indexOf('j=true') >= 0
+
   constructor() {
 
     setInterval(() => {
       this.timer += 1;
     }, 1000);
 
-    this.ws = new WebSocket('ws://192.168.200.86:4567/chat')
-    this.ws.onmessage = this.onMessage
-    this.ws.onopen = () => {
-      console.log("onopen")
-      this.ws.send(JSON.stringify({
-        command: "RegisterCommand",
-        userIdx: this.username
-      }))
+    if (!this.johnny) {
+      this.ws = new WebSocket('ws://192.168.200.86:4567/chat')
+      this.ws.onmessage = this.onMessage
+      this.ws.onopen = () => {
+        console.log("onopen")
+        this.ws.send(JSON.stringify({
+          command: "RegisterCommand",
+          userIdx: this.username
+        }))
+      }
     }
   }
 

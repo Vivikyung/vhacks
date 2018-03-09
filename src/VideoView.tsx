@@ -46,23 +46,26 @@ export default class VideoView extends React.Component<{ appState: AppState }, {
   @autobind
   signal(data) {
     let signal = JSON.stringify(data)
-    if (this.props.appState.username == "metamaster") {
-      this.props.appState.ws.send(JSON.stringify({
-        command: 'OfferStream',
-        userIdx: this.props.appState.username,
-        targetIdx: 'follower',
-        data: signal
-      }));
+    if (this.props.appState.johnny) {
+      console.log('SIGNAL', signal)
+      this.ws.send(signal)
     } else {
-      this.props.appState.ws.send(JSON.stringify({
-        command: 'AnswerStream',
-        userIdx: this.props.appState.username,
-        targetIdx: 'metamaster',
-        data: signal
-      }));
+      if (this.props.appState.username == "metamaster") {
+        this.props.appState.ws.send(JSON.stringify({
+          command: 'OfferStream',
+          userIdx: this.props.appState.username,
+          targetIdx: 'follower',
+          data: signal
+        }));
+      } else {
+        this.props.appState.ws.send(JSON.stringify({
+          command: 'AnswerStream',
+          userIdx: this.props.appState.username,
+          targetIdx: 'metamaster',
+          data: signal
+        }));
+      }
     }
-    //console.log('SIGNAL', signal)
-    //this.ws.send(signal)
     document.querySelector('#outgoing').textContent = signal
   }
 
@@ -106,14 +109,16 @@ export default class VideoView extends React.Component<{ appState: AppState }, {
       navigator.getUserMedia({ video: true, audio: true }, this.initStreamer, function () { })
     else
       this.initListener()
-    //this.ws = new WebSocket('ws://' + window.location.hostname + ':8085')
-    /*    this.ws.onmessage = (event: any) => {
-         var parsed = JSON.parse(event.data)
-         if (this.initiator && parsed.type == "answer")
-           this.peer.signal(parsed)
-         else if (!this.initiator && parsed.type == "offer")
-           this.peer.signal(parsed)
-       } */
+    if (this.props.appState.johnny) {
+      this.ws = new WebSocket('ws://' + window.location.hostname + ':8085')
+      this.ws.onmessage = (event: any) => {
+        var parsed = JSON.parse(event.data)
+        if (this.initiator && parsed.type == "answer")
+          this.peer.signal(parsed)
+        else if (!this.initiator && parsed.type == "offer")
+          this.peer.signal(parsed)
+      }
+    }
     this.props.appState.videoElement = this.refs.vidRef as HTMLVideoElement
   }
 
