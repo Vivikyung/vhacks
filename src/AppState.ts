@@ -3,6 +3,8 @@ import { observable } from 'mobx';
 export default class AppState {
   @observable timer = 0;
 
+  @observable videoBox = ""
+
   constructor() {
     setInterval(() => {
       this.timer += 1;
