@@ -18,7 +18,7 @@ export default class Header extends React.Component<{ appState: AppState }, {}>{
   handleSubmit(event) {
     console.log("this ", this)
     console.log("this.state ", this.props.appState)
-    const data = {username : this.state.user};
+    const data = {username : this.props.appState.user};
     this.props.appState.ws.send(JSON.stringify(data));
   }
 
@@ -31,7 +31,7 @@ export default class Header extends React.Component<{ appState: AppState }, {}>{
             <form className="form" onSubmit={this.handleSubmit}>
               <label>
                 Name:
-                <input type="text" value={this.state.user} onChange={this.handleChange} />
+                <input type="text" value={this.props.appState.user} onChange={this.handleChange} />
               </label>
               <input type="submit" value="Submit" />
             </form>
