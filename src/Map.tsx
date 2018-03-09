@@ -41,16 +41,33 @@ const InnerComponent = compose(
         ))}
       </MarkerClusterer>
     
-      <Marker position={{ lat : props.displayLat, lng : props.displayLng }}/>
-
+      <Marker
+        position={{ lat : props.displayLat, lng : props.displayLng }}
+      />
     </GoogleMap>
 )
 
 export default class Map extends React.Component<{ appState: AppState }, {}> {
   state = {
-    markers: [],
+    markers : [],
     userlat : 0.00,
     userlng : 0.00,
+    request : false,
+  }
+
+  sendMarker() {
+    const socket = '192.168.200.68:4567/chat';
+    const data = {username: 'vivian'};
+
+    fetch(socket, {
+      method: 'POST',
+      body: JSON.stringify(data), 
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      })
+      }).then(res => res.json())
+      .catch(error => console.error('Error:', error))
+      .then(response => console.log('Success:', response));
   }
 
   setMarkers () {
@@ -75,12 +92,17 @@ export default class Map extends React.Component<{ appState: AppState }, {}> {
 
   render() {
     return (
-      <InnerComponent
-        handleMapClick={this.handleMapClick}
-        displayLat = {this.state.userlat}
-        displayLng = {this.state.userlng}
-        markers = {this.state.markers}
-      />
+      <div>
+        <InnerComponent
+          handleMapClick={this.handleMapClick}
+          displayLat = {this.state.userlat}
+          displayLng = {this.state.userlng}
+          markers = {this.state.markers}
+        />
+        <button onClick={this.sendMarker}>
+          Make Request
+        </button> 
+      </div>
     )
   }
 }
