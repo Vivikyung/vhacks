@@ -96,7 +96,7 @@ export default class VideoView extends React.Component<{ appState: AppState }, {
   }
 
   render() {
-    return <div>Video2
+    return <div>Video3
          <form onSubmit={this.submit}>
         <textarea id="incoming" onChange={this.onChange}></textarea>
         <button type="submit">submit</button>

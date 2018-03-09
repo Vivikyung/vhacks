@@ -45,7 +45,7 @@ export default class View3D extends React.Component<{ appState: AppState }, {}> 
     let ground = BABYLON.MeshBuilder.CreateGround('ground',
       { width: 6, height: 6, subdivisions: 2 }, this._scene);
 
-    let videoPlane = BABYLON.MeshBuilder.CreatePlane("videoPlane", { width: 5, height: 8 }, this._scene);
+    let videoPlane = BABYLON.MeshBuilder.CreatePlane("videoPlane", { width: 8, height: 1 }, this._scene);
 
   }
 
@@ -56,6 +56,7 @@ export default class View3D extends React.Component<{ appState: AppState }, {}> 
   }
 
   render() {
+
     return <canvas ref='canvasRef' />
   }
 }

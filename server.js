@@ -5,7 +5,7 @@ var ws = require('ws');
 
 new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
-  hot: false,
+  hot: true,
   historyApiFallback: true
 }).listen(3000, '0.0.0.0', function (err, result) {
   if (err) {

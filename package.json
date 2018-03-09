@@ -39,6 +39,9 @@
     "@types/simple-peer": "^6.1.4",
     "@types/ws": "^4.0.1",
     "autobind-decorator": "^2.1.0",
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
     "babylonjs": "^3.2.0-alphaB",
     "bulma": "^0.6.2",
     "mobx": "^3.2.1",
@@ -48,6 +51,7 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-google-maps": "^9.4.5",
+    "react-hot-loader": "^4.0.0",
     "simple-peer": "^9.0.0",
     "style-loader": "^0.20.3",
     "ws": "^5.0.0"

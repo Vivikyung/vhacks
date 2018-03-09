@@ -5,7 +5,11 @@ module.exports = {
   devtool: 'eval',
   entry: [
     'webpack-dev-server/client?http://localhost:3000',
+    'webpack/hot/only-dev-server',
     './src/index'
+  ],
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
   ],
   output: {
     path: path.join(__dirname, 'dist'),
@@ -34,6 +38,13 @@ module.exports = {
 =======
         test: /\.tsx?$/,
         use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              babelrc: true,
+              plugins: ['react-hot-loader/babel'],
+            },
+          },
           {
             loader: "awesome-typescript-loader"
           },
