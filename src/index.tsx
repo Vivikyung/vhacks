@@ -1,25 +1,12 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import {observable} from 'mobx';
-import {observer} from 'mobx-react';
+import { observable } from 'mobx';
+import { observer } from 'mobx-react';
 import DevTools from 'mobx-react-devtools';
-
-class AppState {
-    @observable timer = 0;
-
-    constructor() {
-        setInterval(() => {
-            this.timer += 1;
-        }, 1000);
-    }
-
-    resetTimer() {
-        this.timer = 0;
-    }
-}
+import AppState from './AppState';
 
 @observer
-class TimerView extends React.Component<{appState: AppState}, {}> {
+class TimerView extends React.Component<{ appState: AppState }, {}> {
     render() {
         return (
             <div>
@@ -29,11 +16,11 @@ class TimerView extends React.Component<{appState: AppState}, {}> {
                 <DevTools />
             </div>
         );
-     }
+    }
 
-     onReset = () => {
-         this.props.appState.resetTimer();
-     }
+    onReset = () => {
+        this.props.appState.resetTimer();
+    }
 };
 
 const appState = new AppState();
