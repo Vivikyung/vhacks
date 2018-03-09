@@ -16,7 +16,8 @@ module.exports = {
     extensions: ['.js', '.ts', '.tsx']
   },
   module: {
-    loaders: [{
+    loaders: [
+      {
       test: /\.tsx?$/,
       use: [
         {
