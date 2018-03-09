@@ -12,6 +12,8 @@ export default class AppState {
 
   @observable videoElement: HTMLVideoElement = null
 
+  @observable user: string = null
+
 
   ws: WebSocket
 

@@ -56,18 +56,8 @@ export default class Map extends React.Component<{ appState: AppState }, {}> {
   }
 
   sendMarker() {
-    const socket = '192.168.200.68:4567/chat';
-    const data = {username: 'vivian'};
-
-    fetch(socket, {
-      method: 'POST',
-      body: JSON.stringify(data), 
-      headers: new Headers({
-        'Content-Type': 'application/json'
-      })
-      }).then(res => res.json())
-      .catch(error => console.error('Error:', error))
-      .then(response => console.log('Success:', response));
+    const data = {lat: this.state.userlat, lng: this.state.userlng};
+    this.props.appState.ws.send(JSON.stringify(data));
   }
 
   setMarkers () {
