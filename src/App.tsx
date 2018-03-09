@@ -18,7 +18,7 @@ class App extends React.Component<{ appState: AppState }, {}> {
                 <button onClick={this.onReset}>
                     Seconds passed: {this.props.appState.timer}
                 </button>
-                <Map appState={this.props.appState} />
+                {/* <Map appState={this.props.appState} /> */}
                 <DevTools />
             </div>
         );

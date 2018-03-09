@@ -95,6 +95,11 @@ export default class VideoView extends React.Component<{ appState: AppState }, {
     this.props.appState.videoBox = event.currentTarget.value
   }
 
+  componentDidMount() {
+    console.log("outer mount")
+    this.props.appState.videoElement = this.refs.vidRef as HTMLVideoElement
+  }
+
   render() {
     return <div>Video3
          <form onSubmit={this.submit}>

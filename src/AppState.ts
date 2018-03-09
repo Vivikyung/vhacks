@@ -9,6 +9,8 @@ export default class AppState {
 
   @observable videoStreamSrc: string = null
 
+  @observable videoElement: HTMLVideoElement = null
+
   constructor() {
     setInterval(() => {
       this.timer += 1;
