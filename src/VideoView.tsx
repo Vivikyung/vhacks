@@ -41,6 +41,9 @@ export default class VideoView extends React.Component<{ appState: AppState }, {
     this.peer.on('signal', this.signal)
     this.peer.on('connect', this.connect)
     this.peer.on('data', this.data)
+    this.props.appState.videoStreamSrc = window.URL.createObjectURL(stream);
+    (this.refs.vidRef as HTMLVideoElement).play();
+    (this.refs.vidRef as HTMLVideoElement).muted = true
   }
 
   @autobind
