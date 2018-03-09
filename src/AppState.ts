@@ -5,6 +5,8 @@ export default class AppState {
 
   @observable videoBox = ""
 
+  @observable markers = []
+
   constructor() {
     setInterval(() => {
       this.timer += 1;

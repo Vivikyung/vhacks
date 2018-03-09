@@ -1,4 +1,4 @@
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps'
 import * as React from 'react';
 import AppState from './AppState';
 
