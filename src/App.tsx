@@ -15,7 +15,7 @@ class App extends React.Component<{ appState: AppState }, {}> {
         return (
             <div>
                 <VideoView appState={this.props.appState} />
-                {!this.props.appState.johnny && <Map appState={this.props.appState} />}
+                {!this.props.appState.johnny && !this.props.appState.noMaps && <Map appState={this.props.appState} />}
                 <DevTools />
             </div>
         );

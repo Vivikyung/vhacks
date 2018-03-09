@@ -19,6 +19,8 @@ export default class AppState {
 
   username = location.hash === '#1' ? "metamaster" : "follower"
 
+  noMaps: boolean = location.search.indexOf('g=false') >= 0
+
   johnny: boolean = location.search.indexOf('j=true') >= 0
 
   constructor() {
@@ -52,6 +54,9 @@ export default class AppState {
     let data = JSON.parse(event.data)
     switch (data.command) {
       case 'OfferStream':
+        this.onOffer(data.data)
+        break;
+      case 'AnswerStream':
         this.onOffer(data.data)
         break;
       default:
