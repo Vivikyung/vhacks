@@ -1,9 +1,10 @@
-import React from 'react';
+import * as React from 'react';
+import AppState from './AppState'
 
-export default class Header extends React.Component <{ appState: AppState }, {}>{
+export default class Header extends React.Component<{ appState: AppState }, {}>{
   constructor(props) {
     super(props)
-    this.state= {}
+    this.state = {}
   }
 
   render() {
@@ -12,7 +13,7 @@ export default class Header extends React.Component <{ appState: AppState }, {}>
       <nav className="navbar" role="navigation">
         <div className="navbar-brand">
           <a className="navbar-item" href="https://bulma.io">
-            <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28"/>
+            <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28" />
           </a>
 
           <div className="navbar-burger">
