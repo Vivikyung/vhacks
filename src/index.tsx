@@ -4,7 +4,7 @@ import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import DevTools from 'mobx-react-devtools';
 import AppState from './AppState';
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 
 //Google Maps components
 const MyMapComponent = withScriptjs(withGoogleMap((props) =>
@@ -15,8 +15,8 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) =>
     {props.isMarkerShown && <Marker position={{ lat: -34.397, lng: 150.644 }} />}
   </GoogleMap>
 ))
-<MyMapComponent isMarkerShown />// Map with a Marker
-<MyMapComponent isMarkerShown={false} />// Just only Map
+<MyMapComponent isMarkerShown /> // Map with a Marker
+<MyMapComponent isMarkerShown={false} /> // Just only Map
 
 @observer
 class TimerView extends React.Component<{ appState: AppState }, {}> {
