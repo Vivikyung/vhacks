@@ -3,6 +3,7 @@ import { compose, withProps, withHandlers } from 'recompose';
 import { fetch } from 'isomorphic-fetch';
 import MarkerClusterer from "react-google-maps/lib/components/addons/MarkerClusterer";
 import * as React from 'react';
+import autobind from 'autobind-decorator'
 import AppState from './AppState';
 
 const InnerComponent = compose(
@@ -35,8 +36,9 @@ const InnerComponent = compose(
       >
         {props.markers.map(marker => (
         <Marker
-          key={marker.photo_id}
+          //key={marker.photo_id}
           position={{ lat: marker.latitude, lng: marker.longitude }}
+          onClick={props.onDispMarkerClick}
         />
         ))}
       </MarkerClusterer>
@@ -52,33 +54,44 @@ export default class Map extends React.Component<{ appState: AppState }, {}> {
     markers : [],
     userlat : 0.00,
     userlng : 0.00,
-    request : false,
+    mst : "",
+    recvlat : 0.00,
+    recvlng : 0.00,
   }
 
+  @autobind
   sendMarker() {
+    console.log(this.state.userlat);
     const data = {lat: this.state.userlat, lng: this.state.userlng};
     this.props.appState.ws.send(JSON.stringify(data));
   }
 
-  setMarkers () {
-    const url = [
-      // Length issue
-      `https://gist.githubusercontent.com`,
-      `/farrrr/dfda7dd7fccfec5474d3`,
-      `/raw/758852bbc1979f6c4522ab4e92d1c92cba8fb0dc/data.json`
-    ].join("")
-
-    fetch(url)
-      .then(res => res.json())
-      .then(data => {
-        this.setState({ markers: data.photos });
-      });
+  @autobind
+  setMarkers(this) {
+    this.props.appState.ws.onmessage = function(event){
+        console.log(event)
+        let data = JSON.parse(event.data)
+        switch (data.type) {
+          case 'lat':
+            this.setState({recvlat : data.lat})
+            break;
+          case 'lng':
+            this.setState({recvlng : data.lng})
+            break;
+          default:
+            break;
+        }
+    }
   }
 
   handleMapClick = ({latLng}) => {
     this.setState({ userlat : latLng.lat() })
     this.setState({ userlng: latLng.lng() })
   }
+
+ /* onDispMarkerClick = ({latLng}) => {
+    this.setState{};
+  }*/
 
   render() {
     return (
@@ -98,86 +111,3 @@ export default class Map extends React.Component<{ appState: AppState }, {}> {
     )
   }
 }
-
-/*
-const InnerComponent = compose(
-  withProps({
-    googleMapURL: "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places",
-    loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `400px` }} />,
-    mapElement: <div style={{ height: `100%` }} />,
-  }),
-  withScriptjs,
-  withGoogleMap
-)((props) =>
-  <GoogleMap
-    defaultZoom={8}
-    defaultCenter={{ lat: -34.397, lng: 150.644 }}
-    //onClick={function(create){const lat=create.latLng.lat(); const lng=create.latLng.lng()}}
-  >
-  {props.isMarkerShown && <Marker position={{ lat: -34.397, lng: 150.644 }} onClick={props.onMarkerClick} />}
-  </GoogleMap>
-)
-
-
-class InnerComponent extends React.Component <{ appState: AppState }, {}> {
-  constructor(props){
-    super(props);
-    this.state = {marker : []};
-    this.handleClick = this.handleClick.bind(this);
-
-  };
-
-  handleClick() {
-    onClick{}
-    this.setStat( marker.push({
-      lat : latLng.lat(),
-      lng : latLng.lng()
-    }))};
-  }
-
-  render() {
-  return <GoogleMap
-    defaultZoom={8}
-    defaultCenter={{ lat: -34.397, lng: 150.644 }}
-
-  >
-  <Marker
-    position={{this.lat, this.lng}}
-  />
-  </GoogleMap>
-}}
-
-export default class Map extends React.Component<{ appState: AppState }, {}> {
-  state = {
-    isMarkerShown: false,
-  }
-
-  componentDidMount() {
-    this.delayedShowMarker()
-  }
-
-  delayedShowMarker = () => {
-    setTimeout(() => {
-      this.setState({ isMarkerShown: true })
-    }, 3000)
-  }
-
-  handleMarkerClick = () => {
-    this.setState({ isMarkerShown: false })
-    this.delayedShowMarker()
-  }
-
-  render() {
-    console.log("state ", this.state.isMarkerShown)
-    return <div style={{ height: "1000px", width: "100%" }}>
-      <InnerComponent
-        googleMapURL={'https://maps.googleapis.com/maps/api/js?key=AIzaSyA9J_Gmk6p51rs4y6fB6MlUkA07QpkOuEU&v=3.exp&libraries=geometry,drawing,places'}
-        loadingElement={<div style={{ height: `100%` }} />}
-        containerElement={<div style={{ height: `400px` }} />}
-        mapElement={<div style={{ height: `100%` }} />} />
-        isMarkerShown={this.state.isMarkerShown}
-        onMarkerClick={this.handleMarkerClick}
-    </div>
-  }
-}*/

@@ -14,6 +14,11 @@ export default class AppState {
 
   @observable user: string
 
+  @observable userlat: 0.00;
+  @observable userlng: 0.00;
+  @observable recvlat: 0.00;
+  @observable recvlng: 0.00;
+
 
   ws: WebSocket
 
