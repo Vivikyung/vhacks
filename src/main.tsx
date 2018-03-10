@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { Router } from 'react-router';
 import * as ReactDOM from 'react-dom';
 import AppState from './AppState';
 import App from './App';
@@ -9,11 +10,11 @@ import VideoView from './VideoView';
 
 const Main = () => (
   <main>
-    <Switch>
-      <Route exact path='/' component={Login}/>
-      <Route path='/map' component={MapPage}/>
-      <Route path='/livestream' component={VideoView}/>
-    </Switch>
+      <Switch>
+        <Route exact path='/' component={Login}/>
+        <Route path='/map' component={MapPage}/>
+        <Route path='/livestream' component={VideoView}/>
+      </Switch>
   </main>
 )
 

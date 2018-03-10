@@ -6,6 +6,7 @@ import DevTools from 'mobx-react-devtools';
 import AppState from './AppState';
 import VideoView from './VideoView'
 import Map from './Map'
+import Main from './main'
 import * as css from '../node_modules/bulma/css/bulma.css'
 import { hot } from 'react-hot-loader'
 

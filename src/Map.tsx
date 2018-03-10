@@ -82,8 +82,8 @@ export default class Map extends React.Component<{ appState: AppState }, {}> {
 
 
   handleMapClick = ({latLng}) => {
-    this.setState({ userlat : latLng.lat() })
-    this.setState({ userlng: latLng.lng() })
+    this.props.appState.userlat = latLng.lat()
+    this.props.appState.userlng = latLng.lng()
   }
 
  /* onDispMarkerClick = ({latLng}) => {
