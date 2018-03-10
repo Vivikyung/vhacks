@@ -16,19 +16,7 @@
         margin: 0;
         padding: 0;
       }
-      #floating-panel {
-        position: absolute;
-        top: 10px;
-        left: 25%;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-        text-align: center;
-        font-family: 'Roboto','sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
-      }
+
     </style>
   </head>
   <body>
@@ -38,7 +26,7 @@
       <button type="button" name="button" id="loginButton" class="primaryButton" >Login</button>
     </div>
     <div id="floating-panel">
-      <input onclick="submitPoint();" type=button value="Explore!">
+      <input onclick="submitPoint();" type=button class="primaryButton" value="Explore!">
 	  <div id="information"></div>
     </div>
     <div id="map"></div>

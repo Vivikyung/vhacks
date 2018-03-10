@@ -19,6 +19,20 @@ $primaryColor: #BD10E0;
 
 }
 
+#floating-panel {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  z-index: 5;
+  width: 100%;
+  background-color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Roboto','sans-serif';
+}
+
 .loginScreen {
   h1 {
     font-family: sans-serif;
