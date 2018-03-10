@@ -1,3 +1,18 @@
 .gm-style-cc, .gmnoscreen,.gmnoprint {
   display: none;
 }
+
+$primaryColor: #BD10E0;
+
+.primaryButton {
+  background: $primaryColor;
+  padding: 10px 30px;
+  border-radius: 50px;
+  border: none;
+  color: white;
+  text-transform: uppercase;
+  box-shadow: 0 2px 4px 0 rgba(121,121,121,0.50);
+  cursor: pointer;
+  outline: none;
+
+}
