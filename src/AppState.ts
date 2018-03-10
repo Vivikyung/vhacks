@@ -13,7 +13,6 @@ export default class AppState {
   @observable videoElement: HTMLVideoElement = null
 
   @observable user: string
-
   @observable userlat: 0.00;
   @observable userlng: 0.00;
 
