@@ -31,7 +31,7 @@ const InnerComponent = compose(
       {props.markers.map(marker => (
         <Marker
           key={marker.ID}
-          position={{ lat: marker.latitude, lng: marker.longitude }}
+          position={{ lat: parseFloat(marker.latitude), lng: parseFloat(marker.longitude) }}
           onClick={props.onDispMarkerClick}
         />
       ))}
@@ -58,25 +58,19 @@ export default class Map extends React.Component<{ appState: AppState }, {}> {
   sendMarker() {
     const data = {userIdx: this.props.appState.username, command: "RequestPoint", latitude: this.state.userlat, longitude: this.state.userlng};
     this.props.appState.ws.send(JSON.stringify(data));
-    //this.setMarkers()
+    this.setMarkers()
   }
 
 //  @autobind
   setMarkers() {
+    let reMark = {latitude: this.props.appState.remlat, longitude: this.props.appState.remlng, ID: this.props.appState.remID}
     let mark = {latitude: this.props.appState.recvlat, longitude: this.props.appState.recvlng, ID: this.props.appState.ID}
-    console.log("mark ", mark)
-    if(this.props.appState.removeP){
-      console.log("is tru my dude")
-      let array = this.state.markers
-      let index = array.indexOf(mark);
-      console.log("index ", index)
-      array.splice(index, 1);
-      this.setState({markers: array });
-    }else{
-      this.setState({
-        markers: this.state.markers.concat([mark])
-      })
-    }
+    console.log(this.state.markers.length)
+    let array = this.state.markers.slice();
+    let index = array.indexOf(reMark);
+    array.splice(index, 1);
+    array.push(mark);
+    this.setState({markers: array });
   }
 
   handleMapClick = (center) => {

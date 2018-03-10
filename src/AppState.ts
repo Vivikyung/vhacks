@@ -13,14 +13,17 @@ export default class AppState {
   @observable videoElement: HTMLVideoElement = null
 
   @observable user: string
-  @observable userlat: 0.00;
-  @observable userlng: 0.00;
+  @observable userlat: 0.00
+  @observable userlng: 0.00
 
-  @observable recvlat: 0.00;
-  @observable recvlng: 0.00;
-  @observable removeP: boolean = null;
-  @observable ID: 0;
+  @observable recvlat: 0.00
+  @observable recvlng: 0.00
+  @observable ID: 0
+  @observable remlat: 0.00
+  @observable remlng: 0.00
+  @observable remID: 0
 
+  @observable command: string
 
   ws: WebSocket
 
@@ -58,20 +61,14 @@ export default class AppState {
   @autobind
   onMessage(event: MessageEvent) {
     let data = JSON.parse(event.data)
-    console.log(data)
-    this.recvlat = data.latitude
-    this.recvlng = data.longitude
-    this.ID = data.markerIdx
-    console.log("ID ",data.markerIdx)
-    switch (data.command) {
-      case "RemovePoint":
-        this.removeP = true
-        break;
-      case "RequestPoint":
-        this.removeP = false
-        break;
-      default:
-        break;
+    if(data.command == "RemovePoint"){
+      this.remlat = data.latitude
+      this.remlng = data.longitude
+      this.remID = data.markerIdx
+    }else{
+      this.recvlat = data.latitude
+      this.recvlng = data.longitude
+      this.ID = data.markerIdx
     }
   }
 }
