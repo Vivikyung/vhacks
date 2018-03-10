@@ -272,7 +272,42 @@ $primaryColor: #BD10E0;
   left: 0;
   z-index: -1;
 }
+.searchContainer {
+  padding: 10px;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 20px;
+  left: 0px;
+}
+.microphoneButton {
+  border: none;
+  background: white;
+  color: $primaryColor;
+  border: 1px solid #F4F4F4;
+  box-shadow: 0 2px 4px 0 rgba(121,121,121,0.50);
+  border-radius: 50%;
+  font-size: 24px;
+  width: 50px;
+  height: 50px;
+  margin-left: 50px;
+  cursor: pointer;
+}
+.searchLocation {
+  background: #FFFFFF;
+  font-size: 16px;
+  border: 1px solid #F4F4F4;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px 0 rgba(121,121,121,0.50);
+  border-radius: 12px;
+  width: 70%;
+}
 .requestContainer {
+  display: none;
   position: fixed;
   bottom: 0px;
   left: 0px;
@@ -281,6 +316,13 @@ $primaryColor: #BD10E0;
   padding: 10px;
   height: 100px;
 }
+.videoView {
+  display: none;
+}
+.babylonVRicon {
+  display: none;
+}
+
 .gm-style-cc, .gmnoscreen,.gmnoprint {
   display: none;
 }

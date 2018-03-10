@@ -74,7 +74,7 @@ export default class Map extends React.Component<{ appState: AppState }, {}> {
       array.splice(index, 1);
       this.setState({markers: array });
     }else{
-      this.setState({ 
+      this.setState({
         markers: this.props.appState.markers.concat([mark])
       })
     }
@@ -99,6 +99,12 @@ export default class Map extends React.Component<{ appState: AppState }, {}> {
           displayLng = {this.props.appState.userlng}
           markers = {this.props.appState.markers}
         />
+        <div className="searchContainer">
+          <input className="searchLocation" type="text" placeholder="Search for places"></input>
+          <button className="microphoneButton">
+            <i className="fas fa-microphone"></i>
+          </button>
+        </div>
         <div className="requestContainer">
           <button className="primaryButton" onClick={this.sendMarker}>
             Make Request
