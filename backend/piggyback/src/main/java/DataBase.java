@@ -5,8 +5,8 @@ import java.util.HashMap;
  * Created by Elmar on 09-Mar-18.
  */
 public abstract class DataBase<K,V> {
-    private HashMap<K, V> keyToValue = new HashMap<>();
-    private HashMap<V, K> valueToKey = new HashMap<>();
+    protected HashMap<K, V> keyToValue = new HashMap<>();
+    protected HashMap<V, K> valueToKey = new HashMap<>();
 
     abstract void entryAdded(K key, V value);
     abstract void entryRemoved(K key, V value);

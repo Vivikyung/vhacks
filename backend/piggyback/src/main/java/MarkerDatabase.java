@@ -37,6 +37,7 @@ public class MarkerDatabase extends DataBase<String, Command> {
     void entryAdded(String key, Command value) {
         pointIdx++;
         pointAddedCallback.callback(value);
+        System.out.println("["+key+"]["+value+"]");
     }
 
     @Override

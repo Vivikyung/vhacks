@@ -27,18 +27,19 @@ public class Chat {
         CommandDispatcher.registerCommand("RequestPoint", (user, command) -> markerDatabase.addPoint(command));
         CommandDispatcher.registerCommand("RemovePoint", (user, command) -> markerDatabase.removeEntry(command.userIdx));
         CommandDispatcher.registerCommand("RegisterCommand", (user, command) -> {
-            CommandDispatcher.sendCommand(command.userIdx,command);
+            CommandDispatcher.sendCommand(command.userIdx, command);
             for (Command point : markerDatabase.getValues()) {
-                CommandDispatcher.sendCommand(command.userIdx,point);
+                CommandDispatcher.sendCommand(command.userIdx, point);
             }
             if (chatDataBase.getChats(command.userIdx).size() > 0) {
                 Command chats = new Command();
                 chats.userIdx = command.userIdx;
                 chats.messages = chatDataBase.jsonArray(chatDataBase.getChats(command.userIdx));
-                CommandDispatcher.sendCommand(command.userIdx,chats);
+                CommandDispatcher.sendCommand(command.userIdx, chats);
             }
         });
         CommandDispatcher.registerCommand("AnswerStream", (user, command) -> {
+            System.out.println("NONO");
             if (command.markerIdx != 0) {
                 CommandDispatcher.sendCommand(markerDatabase.getKey(command), command);
             } else {
@@ -46,11 +47,7 @@ public class Chat {
             }
         });
         CommandDispatcher.registerCommand("OfferStream", (user, command) -> {
-            if (command.markerIdx != 0) {
-                Chat.handleCommand.ProcRequestStream(command);
-            } else {
-                CommandDispatcher.sendCommand(command.targetIdx, command);
-            }
+            CommandDispatcher.broadcast(command);
         });
 
         markerDatabase.setPointRemovedCallback(command -> CommandDispatcher.broadcastPoint(command, false));

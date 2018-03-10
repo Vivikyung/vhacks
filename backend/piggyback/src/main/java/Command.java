@@ -12,6 +12,6 @@ public class Command {
     public String messages[];
 
     public String toString(){
-        return "[user: " + userIdx + " marker: " + markerIdx + "]";
+        return "[user: " + userIdx + " target: " + targetIdx + " marker: " + markerIdx +  " command: " + command + "]";
     }
 }

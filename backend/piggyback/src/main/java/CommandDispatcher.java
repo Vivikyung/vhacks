@@ -44,6 +44,7 @@ public class CommandDispatcher {
     public static void sendCommand(String targetIdx, Command command) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
+            System.out.println(targetIdx);
             String requestAsString = objectMapper.writeValueAsString(command);
             userDataBase.getValue(targetIdx).getRemote().sendString(requestAsString);
         } catch (JsonProcessingException e) {
@@ -52,6 +53,7 @@ public class CommandDispatcher {
             e.printStackTrace();
         }
     }
+
     public static void broadcastPoint(Command newPoint, boolean add) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
@@ -72,6 +74,23 @@ public class CommandDispatcher {
             e.printStackTrace();
         }
     }
+
+    public static void broadcast(Command command) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String pointAsString = objectMapper.writeValueAsString(command);
+            userDataBase.getValues().stream().forEach(session -> {
+                try {
+                    session.getRemote().sendString(pointAsString);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public static void userClosed(Session user) {
         userDataBase.removeValue(user);
