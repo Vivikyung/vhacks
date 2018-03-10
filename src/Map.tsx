@@ -40,7 +40,7 @@ const InnerComponent = compose(
         key={0}
         position={{ lat : props.displayLat, lng : props.displayLng }}
       />
-    </GoogleMap> 
+    </GoogleMap>
 )
 
 export default class Map extends React.Component<{ appState: AppState }, {}> {
@@ -73,13 +73,8 @@ export default class Map extends React.Component<{ appState: AppState }, {}> {
       array.splice(index, 1);
       this.setState({markers: array });
     }else{
-<<<<<<< HEAD
-      this.setState({ 
-        markers: this.state.markers.concat([mark])
-=======
       this.setState({
-        markers: this.props.appState.markers.concat([mark])
->>>>>>> 13dbce85b7e081517e534cf4685135dd4ea7a458
+        markers: this.state.markers.concat([mark])
       })
     }
   }
@@ -105,7 +100,7 @@ export default class Map extends React.Component<{ appState: AppState }, {}> {
         />
         <div className="searchContainer">
           <input className="searchLocation" type="text" placeholder="Search for places"></input>
-          <button className="microphoneButton">
+          <button className="microphoneButton" onClick={this.sendMarker}>
             <i className="fas fa-microphone"></i>
           </button>
         </div>
