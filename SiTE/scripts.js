@@ -1,5 +1,6 @@
 var username = "testi";
 
+var explore = true;
 
   $('#loginButton').click(function() {
 		username = $('#username').val();
@@ -11,12 +12,17 @@ var username = "testi";
 	var overlay = $("#overlay"),
         fab = $(".fab"),
      cancel = $("#cancel"),
-     submit = $("#submit");
+     livestream = $("#livestream");
 
 //fab click
 fab.on('click', openFAB);
 overlay.on('click', closeFAB);
 cancel.on('click', closeFAB);
+livestream.on('click', gotoStream);
+
+function gotoStream(){
+		 window.location.replace('http://192.168.200.127:3000/');
+	 }
 
 function openFAB(event) {
   if (event) event.preventDefault();
@@ -51,6 +57,9 @@ function initMap() {
 			if(prevMarker != null){
 			prevMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
 			}
+			explore = true;
+			document.getElementById('bigbutton').value = "Explore!";
+			document.getElementById("information").innerHTML = "";
 			targetMarker.setPosition(event.latLng);
 			prevMarker = null;
 			});
@@ -101,6 +110,7 @@ var webSocket;
 	case "AnswerStream":
 	break;
 	case "OfferStream":
+	openFAB();
 	break;
 	}
 	};
@@ -146,8 +156,11 @@ var webSocket;
 			prevMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
 			}
 			marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
-			document.getElementById("information").innerHTML = index;
+			document.getElementById("information").innerHTML = "Verona would like to see some more about the church!";
+			selectedMarkerIdx = index;
 			prevMarker = marker;
+			explore = false;
+			document.getElementById('bigbutton').value = "Guide!";
 		});
 	}
 
@@ -161,10 +174,23 @@ var webSocket;
       function clearMarkers() {
         setMapOnAll(null);
       }
+	  
+	  var selectedMarkerIdx;
+	  function changeWindow(){
+		  window.location.replace('http://192.168.200.127:3000/#1');
+	  }
 
 	  function submitPoint(){
+		  if(explore == true){
 	  var object = {"command":"RequestPoint","userIdx":username, "latitude":targetMarker.getPosition().lat(),"longitude":targetMarker.getPosition().lng()};
 		  webSocket.send(JSON.stringify(object));
+		  
+		  
+		  }else{
+		var object = {"command":"OfferStream","userIdx":username, "markerIdx":selectedMarkerIdx};
+		  		  webSocket.send(JSON.stringify(object));
+				  window.setTimeout(changeWindow, 500);
+		  }  
 	  }
 
       // Shows any markers currently in the array.
