@@ -17,9 +17,11 @@ var explore = true;
 //fab click
 fab.on('click', openFAB);
 overlay.on('click', closeFAB);
-cancel.on('click', closeFAB);
+cancel.on('click', startStream);
 livestream.on('click', gotoStream);
-
+function startStream(){
+	window.location.replace('http://192.168.200.127:3000/#1');
+}
 function gotoStream(){
 		 window.location.replace('http://192.168.200.127:3000/');
 	 }
@@ -88,7 +90,7 @@ var webSocket;
 		case "ChatsAvailable":
 		break;
 		case "RequestPoint":
-		addMarker(data.markerIdx,new google.maps.LatLng(data.latitude, data.longitude));
+		addMarker(data.markerIdx,data.userIdx,new google.maps.LatLng(data.latitude, data.longitude));
 		break;
 		case "RemovePoint":
 		clearMarkers();
@@ -116,7 +118,7 @@ var webSocket;
 	};
 
 	webSocket.onclose = function () {
-	alert("WebSocket connection closed");
+	
 	};
 
 	webSocket.onerror = function(evt){
@@ -138,13 +140,14 @@ var webSocket;
 		var map;
 		var targetMarker;
 		var markers = [];
-
+		var targetIdx;
 
 
       // Adds a marker to the map and push to the array.
-	function addMarker(index, location) {
+	function addMarker(index, usr, location) {
 		var marker = new google.maps.Marker({
 			idx: index,
+			user: usr,
 			position: location,
 			map: map,
 			icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
@@ -158,6 +161,7 @@ var webSocket;
 			marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
 			document.getElementById("information").innerHTML = "Verona would like to see some more about the church!";
 			selectedMarkerIdx = index;
+			targetIdx = usr;
 			prevMarker = marker;
 			explore = false;
 			document.getElementById('bigbutton').value = "Guide!";
@@ -187,9 +191,9 @@ var webSocket;
 		  
 		  
 		  }else{
-		var object = {"command":"OfferStream","userIdx":username, "markerIdx":selectedMarkerIdx};
+		var object = {"command":"OfferStream","userIdx":username, "targetIdx":targetIdx,"markerIdx":selectedMarkerIdx};
 		  		  webSocket.send(JSON.stringify(object));
-				  window.setTimeout(changeWindow, 500);
+
 		  }  
 	  }
 
