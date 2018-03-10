@@ -2,7 +2,7 @@ import * as React from 'react';
 import AppState from './AppState'
 import autobind from 'autobind-decorator'
 import { Router, Route, Switch } from 'react-router'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter,Link } from 'react-router-dom'
 
 export default class Login extends React.Component<{ appState: AppState }, {}>{
   constructor(props) {
@@ -33,16 +33,17 @@ export default class Login extends React.Component<{ appState: AppState }, {}>{
         <div className="wrapper">
           <div className="container">
             <h1>Welcome</h1>
-            
+
             <form className="form" onSubmit={this.handleSubmit}>
               <label>
                 Name:
                 <input type="text" value={this.props.appState.user} onChange={this.handleChange} />
               </label>
-              <button type="submit"><a href="/map">Submit</a></button>
+
+              <Link to="/map" className="primaryButton">Login</Link>
             </form>
           </div>
-          
+
           <ul className="bg-bubbles">
             <li></li>
             <li></li>
