@@ -18,12 +18,17 @@ export default class VideoView extends React.Component<{ appState: AppState }, {
   ws: WebSocket
   initiator: boolean = location.hash === '#1'
 
+  constructor() {
+    super()
+  }
+
   @autobind
   initListener() {
     this.props.appState.onOffer = (signal) => {
       this.peer.signal(signal)
     }
-    this.peer = new Peer({ initiator: false, trickle: false })
+    this.peer = new Peer({ initiator: false, trickle: false, config: { "iceServers": [{ "urls": "stun:stun.l.google.com:19302" }, { "urls": "stun:global.stun.twilio.com:3478" }] } })
+
     this.peer.on('error', this.error)
     this.peer.on('signal', this.signal)
     this.peer.on('connect', this.connect)
@@ -36,7 +41,8 @@ export default class VideoView extends React.Component<{ appState: AppState }, {
     this.props.appState.onOffer = (signal) => {
       this.peer.signal(signal)
     }
-    this.peer = new Peer({ initiator: location.hash === '#1', stream: stream, trickle: false })
+
+    this.peer = new Peer({ initiator: location.hash === '#1', stream: stream, trickle: false, config: { "iceServers": [{ "urls": "stun:stun.l.google.com:19302" }, { "urls": "stun:global.stun.twilio.com:3478" }] } })
     this.peer.on('error', this.error)
     this.peer.on('signal', this.signal)
     this.peer.on('connect', this.connect)
@@ -69,7 +75,7 @@ export default class VideoView extends React.Component<{ appState: AppState }, {
         }));
       }
     }
-    document.querySelector('#outgoing').textContent = signal
+    //document.querySelector('#outgoing').textContent = signal
   }
 
   @autobind
@@ -87,7 +93,7 @@ export default class VideoView extends React.Component<{ appState: AppState }, {
   @autobind
   connect() {
     console.log('CONNECT')
-    this.peer.send('whatever' + Math.random())
+    //this.peer.send('whatever' + Math.random())
   }
 
   @autobind
@@ -135,7 +141,7 @@ export default class VideoView extends React.Component<{ appState: AppState }, {
        */}
       {/* <pre id="outgoing"></pre> */}
       <View3D appState={this.props.appState} />
-      <video ref="vidRef" src={this.props.appState.videoStreamSrc} />
+      <video ref="vidRef" src={this.props.appState.videoStreamSrc} style={{ height: "1px", width: "1px", display: "hidden" }} />
     </div>
   }
 }
