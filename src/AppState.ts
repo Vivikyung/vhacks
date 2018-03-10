@@ -16,8 +16,11 @@ export default class AppState {
 
   @observable userlat: 0.00;
   @observable userlng: 0.00;
+
   @observable recvlat: 0.00;
   @observable recvlng: 0.00;
+  @observable removeP: boolean = null;
+  @observable ID: 0;
 
 
   ws: WebSocket
@@ -55,14 +58,17 @@ export default class AppState {
 
   @autobind
   onMessage(event: MessageEvent) {
-    console.log(event)
     let data = JSON.parse(event.data)
+    console.log(data)
+    this.recvlat = data.latitude
+    this.recvlng = data.longitude
+    this.ID = data.markerIdx
     switch (data.command) {
-      case 'OfferStream':
-        this.onOffer(data.data)
+      case "RemovePoint":
+        this.removeP = true
         break;
-      case 'AnswerStream':
-        this.onOffer(data.data)
+      case "RequestPoint":
+        this.removeP = false
         break;
       default:
         break;

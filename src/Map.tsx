@@ -36,7 +36,7 @@ const InnerComponent = compose(
       >
         {props.markers.map(marker => (
         <Marker
-          //key={marker.photo_id}
+          key={marker.ID}
           position={{ lat: marker.latitude, lng: marker.longitude }}
           onClick={props.onDispMarkerClick}
         />
@@ -50,39 +50,36 @@ const InnerComponent = compose(
 )
 
 export default class Map extends React.Component<{ appState: AppState }, {}> {
-  state = {
-    markers : [],
-    userlat : 0.00,
-    userlng : 0.00,
-    mst : "",
-    recvlat : 0.00,
-    recvlng : 0.00,
+  constructor(props) {
+    super(props)
+    this.state = {};
+
   }
+
 
   @autobind
   sendMarker() {
-    console.log(this.state.userlat);
-    const data = {lat: this.state.userlat, lng: this.state.userlng};
+    console.log(this.props.appState.userlat);
+    const data = {userIdx: this.props.appState.username, command: "RequestPoint", latitude: this.props.appState.userlat, longitude: this.props.appState.userlng};
     this.props.appState.ws.send(JSON.stringify(data));
   }
 
   @autobind
   setMarkers(this) {
-    this.props.appState.ws.onmessage = function(event){
-        console.log(event)
-        let data = JSON.parse(event.data)
-        switch (data.type) {
-          case 'lat':
-            this.setState({recvlat : data.lat})
-            break;
-          case 'lng':
-            this.setState({recvlng : data.lng})
-            break;
-          default:
-            break;
-        }
+    let mark = {latitude: this.props.appState.recvlat, longitude: this.props.appState.recvlng, ID: this.props.appState.ID}
+    console.log("mark ", mark)
+    if(this.props.appState.removeP){
+      let array = this.props.appState.markers
+      let index = array.indexOf(mark);
+      array.splice(index, 1);
+      this.setState({markers: array });
+    }else{
+      this.setState({ 
+        markers: this.props.appState.markers.concat([mark])
+      })
     }
   }
+
 
   handleMapClick = ({latLng}) => {
     this.setState({ userlat : latLng.lat() })
@@ -98,9 +95,9 @@ export default class Map extends React.Component<{ appState: AppState }, {}> {
       <div>
         <InnerComponent
           handleMapClick={this.handleMapClick}
-          displayLat = {this.state.userlat}
-          displayLng = {this.state.userlng}
-          markers = {this.state.markers}
+          displayLat = {this.props.appState.userlat}
+          displayLng = {this.props.appState.userlng}
+          markers = {this.props.appState.markers}
         />
         <div className="requestContainer">
           <button className="primaryButton" onClick={this.sendMarker}>
