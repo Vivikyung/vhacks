@@ -55,10 +55,11 @@ export default class VideoView extends React.Component<{ appState: AppState }, {
   @autobind
   signal(data) {
     let signal = JSON.stringify(data)
-    if (this.props.appState.johnny) {
-      console.log('SIGNAL', signal)
-      this.ws.send(signal)
-    } else {
+    /* if (this.props.appState.johnny) {
+     */
+    console.log('SIGNAL', signal)
+    this.ws.send(signal)
+    /* } else {
       if (this.props.appState.username == "metamaster") {
         this.props.appState.ws.send(JSON.stringify({
           command: 'OfferStream',
@@ -74,7 +75,7 @@ export default class VideoView extends React.Component<{ appState: AppState }, {
           data: signal
         }));
       }
-    }
+    } */
     //document.querySelector('#outgoing').textContent = signal
   }
 
@@ -118,28 +119,19 @@ export default class VideoView extends React.Component<{ appState: AppState }, {
       navigator.getUserMedia({ video: true, audio: true }, this.initStreamer, function () { })
     else
       this.initListener()
-    if (this.props.appState.johnny) {
-      this.ws = new WebSocket('ws://' + window.location.hostname + ':8085')
-      this.ws.onmessage = (event: any) => {
-        var parsed = JSON.parse(event.data)
-        if (this.initiator && parsed.type == "answer")
-          this.peer.signal(parsed)
-        else if (!this.initiator && parsed.type == "offer")
-          this.peer.signal(parsed)
-      }
+    this.ws = new WebSocket('ws://' + window.location.hostname + ':8085')
+    this.ws.onmessage = (event: any) => {
+      var parsed = JSON.parse(event.data)
+      if (this.initiator && parsed.type == "answer")
+        this.peer.signal(parsed)
+      else if (!this.initiator && parsed.type == "offer")
+        this.peer.signal(parsed)
     }
     this.props.appState.videoElement = this.refs.vidRef as HTMLVideoElement
   }
 
   render() {
-    return <div>
-      {/* Video3
-         <form onSubmit={this.submit}>
-        <textarea id="incoming" onChange={this.onChange}></textarea>
-        <button type="submit">submit</button>
-      </form>
-       */}
-      {/* <pre id="outgoing"></pre> */}
+    return <div style={{ height: "100%", width: "100%" }}>
       <View3D appState={this.props.appState} />
       <video ref="vidRef" src={this.props.appState.videoStreamSrc} style={{ height: "1px", width: "1px", display: "hidden" }} />
     </div>

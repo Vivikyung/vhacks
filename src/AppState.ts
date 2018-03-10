@@ -6,7 +6,7 @@ export default class AppState {
 
   @observable videoBox = ""
 
-  @observable markers = []
+  @observable.deep markers = []
 
   @observable videoStreamSrc: string = null
 
@@ -25,25 +25,17 @@ export default class AppState {
 
   constructor() {
 
-    setInterval(() => {
-      this.timer += 1;
-    }, 1000);
 
-    if (!this.johnny) {
-      this.ws = new WebSocket('ws://192.168.200.86:4567/chat')
-      this.ws.onmessage = this.onMessage
-      this.ws.onopen = () => {
-        console.log("onopen")
-        this.ws.send(JSON.stringify({
-          command: "RegisterCommand",
-          userIdx: this.username
-        }))
-      }
+    this.ws = new WebSocket('ws://192.168.200.86:4567/chat')
+    this.ws.onmessage = this.onMessage
+    this.ws.onopen = () => {
+      console.log("onopen")
+      this.ws.send(JSON.stringify({
+        command: "RegisterCommand",
+        userIdx: this.username
+      }))
     }
-  }
 
-  resetTimer() {
-    this.timer = 0;
   }
 
   onOffer: (data: any) => void
@@ -54,10 +46,10 @@ export default class AppState {
     let data = JSON.parse(event.data)
     switch (data.command) {
       case 'OfferStream':
-        this.onOffer(data.data)
+        //this.onOffer(data.data)
         break;
       case 'AnswerStream':
-        this.onOffer(data.data)
+        //this.onOffer(data.data)
         break;
       default:
         break;
