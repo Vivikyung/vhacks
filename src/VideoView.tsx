@@ -133,7 +133,7 @@ export default class VideoView extends React.Component<{ appState: AppState }, {
   render() {
     return <div style={{ height: "100%", width: "100%" }}>
       <View3D appState={this.props.appState} />
-      <video ref="vidRef" src={this.props.appState.videoStreamSrc} style={{ height: "1px", width: "1px", display: "hidden" }} />
+      <video ref="vidRef" src={this.props.appState.videoStreamSrc} style={{ height: "30px", width: "30px" }} />
     </div>
   }
 }

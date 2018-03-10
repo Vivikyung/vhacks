@@ -32,7 +32,13 @@ export default class View3D extends React.Component<{ appState: AppState }, {}> 
       createDeviceOrientationCamera: true,
       createFallbackVRDeviceOrientationFreeCamera: true
     });
-
+    this._vrHelper.onEnteringVRObservable.add((helper) => {
+      debugger
+      var vplane = (this._videoPlane.material as BABYLON.StandardMaterial)
+      vplane.diffuseTexture = new BABYLON.VideoTexture('vidtex', this.props.appState.videoElement, this._scene);
+      var vidTex = vplane.diffuseTexture as BABYLON.VideoTexture
+      vidTex.updateTexture(true)
+    })
     let baseSize = 30;
 
     this._camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, baseSize, -baseSize / 3), this._scene);
@@ -80,8 +86,13 @@ export default class View3D extends React.Component<{ appState: AppState }, {}> 
     this._planeTop.material = topMaterial;
 
     autorun(() => {
-      if (this.props.appState.videoElement)
-        (this._videoPlane.material as BABYLON.StandardMaterial).diffuseTexture = new BABYLON.VideoTexture('vidtex', this.props.appState.videoElement, this._scene);
+      if (this.props.appState.videoElement) {
+        var vplane = (this._videoPlane.material as BABYLON.StandardMaterial)
+        vplane.diffuseTexture = new BABYLON.VideoTexture('vidtex', this.props.appState.videoElement, this._scene);
+        var vidTex = vplane.diffuseTexture as BABYLON.VideoTexture
+        vidTex.updateTexture(true)
+      }
+
       console.log("updated tex")
     })
   }
