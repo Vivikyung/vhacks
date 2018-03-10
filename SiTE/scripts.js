@@ -1,3 +1,13 @@
+var username = "testi";
+
+$( document ).ready(function() {
+    $('#loginButton').click(function() {
+			username = $('#username').val();
+			$('.loginScreen').hide();
+		})
+
+});
+
 var webSocket;
 	  function createWebsocket(){
 	    webSocket = new WebSocket("ws://192.168.200.68:4567/chat");
@@ -48,19 +58,13 @@ webSocket.onerror = function(evt){
 }
 
 webSocket.onopen = function(){
-	username = prompt("Welcome!", "Enter your name");
 
-	if (username == null || username == "") {
-		txt = "User cancelled the prompt.";
-	} else {
-		txt = "Hello " + username + "! How are you today?";
-		var object = {"command":"RegisterCommand","userIdx":username};
-		console.log(object);
-		console.log(JSON.stringify(object));
-		webSocket.send(JSON.stringify(object));
-	}
+			var object = {"command":"RegisterCommand","userIdx":username};
+			console.log(object);
+			console.log(JSON.stringify(object));
+			webSocket.send(JSON.stringify(object));
+		}
 }
-	  }
 
 
       var map;
