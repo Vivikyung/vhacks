@@ -28,62 +28,66 @@ const InnerComponent = compose(
       defaultCenter={{ lat: 41.9028, lng: 12.4964 }}
       onClick={props.handleMapClick}
     >
-      <MarkerClusterer
-        onClick={props.onMarkerClustererClick}
-        averageCenter
-        enableRetinaIcons
-        gridSize={60}
-      >
-        {props.markers.map(marker => (
+      {props.markers.map(marker => (
         <Marker
           key={marker.ID}
           position={{ lat: marker.latitude, lng: marker.longitude }}
           onClick={props.onDispMarkerClick}
         />
-        ))}
-      </MarkerClusterer>
+      ))}
 
       <Marker
+        key={0}
         position={{ lat : props.displayLat, lng : props.displayLng }}
       />
-    </GoogleMap>
+    </GoogleMap> 
 )
 
 export default class Map extends React.Component<{ appState: AppState }, {}> {
-  constructor(props) {
-    super(props)
-    this.state = {};
-
+  state = {
+    markers : [],
+    userlat : 0.00,
+    userlng : 0.00,
   }
 
+  componentWillMount() {
+    this.setState({ markers: [] })
+  }
 
   @autobind
   sendMarker() {
-    console.log(this.props.appState.userlat);
-    const data = {userIdx: this.props.appState.username, command: "RequestPoint", latitude: this.props.appState.userlat, longitude: this.props.appState.userlng};
+    const data = {userIdx: this.props.appState.username, command: "RequestPoint", latitude: this.state.userlat, longitude: this.state.userlng};
     this.props.appState.ws.send(JSON.stringify(data));
+    //this.setMarkers()
   }
 
-  @autobind
-  setMarkers(this) {
+//  @autobind
+  setMarkers() {
     let mark = {latitude: this.props.appState.recvlat, longitude: this.props.appState.recvlng, ID: this.props.appState.ID}
     console.log("mark ", mark)
     if(this.props.appState.removeP){
-      let array = this.props.appState.markers
+      console.log("is tru my dude")
+      let array = this.state.markers
       let index = array.indexOf(mark);
+      console.log("index ", index)
       array.splice(index, 1);
       this.setState({markers: array });
     }else{
+<<<<<<< HEAD
+      this.setState({ 
+        markers: this.state.markers.concat([mark])
+=======
       this.setState({
         markers: this.props.appState.markers.concat([mark])
+>>>>>>> 13dbce85b7e081517e534cf4685135dd4ea7a458
       })
     }
   }
 
+  handleMapClick = (center) => {
 
-  handleMapClick = ({latLng}) => {
-    this.props.appState.userlat = latLng.lat()
-    this.props.appState.userlng = latLng.lng()
+    this.setState({ userlat : center.latLng.lat() })
+    this.setState({ userlng : center.latLng.lng() })
   }
 
  /* onDispMarkerClick = ({latLng}) => {
@@ -95,9 +99,9 @@ export default class Map extends React.Component<{ appState: AppState }, {}> {
       <div>
         <InnerComponent
           handleMapClick={this.handleMapClick}
-          displayLat = {this.props.appState.userlat}
-          displayLng = {this.props.appState.userlng}
-          markers = {this.props.appState.markers}
+          displayLat = {this.state.userlat}
+          displayLng = {this.state.userlng}
+          markers = {this.state.markers}
         />
         <div className="searchContainer">
           <input className="searchLocation" type="text" placeholder="Search for places"></input>

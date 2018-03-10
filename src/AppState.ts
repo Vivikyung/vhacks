@@ -62,6 +62,7 @@ export default class AppState {
     this.recvlat = data.latitude
     this.recvlng = data.longitude
     this.ID = data.markerIdx
+    console.log("ID ",data.markerIdx)
     switch (data.command) {
       case "RemovePoint":
         this.removeP = true
