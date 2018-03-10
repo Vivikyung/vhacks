@@ -93,6 +93,6 @@ export default class View3D extends React.Component<{ appState: AppState }, {}> 
   }
 
   render() {
-    return <canvas style={{ width: "100%", height: "100%" }} ref='canvasRef' />
+    return <canvas className="videoView" style={{ width: "100%", height: "100%", display: "none" }} ref='canvasRef' />
   }
 }
